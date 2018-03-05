@@ -18,14 +18,18 @@ $ docker run -ti --rm -p 8080:8080 \
 
 ## Configuration
 
+All configuration is done by environment variables passed to the docker
+container.
+
  - `UPSTREAM`
 
    The location you like to proxy. This has to be a valid nginx
-   [proxy_pass](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass).
+   [proxy_pass](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass)
+   URL.
 
  - `DELAY`
 
-   The number of seconds to delay the response. The given value will given to
+   The number of seconds to delay the response. The given value will be passed to
    [ngx.sleep](https://github.com/openresty/lua-nginx-module#ngxsleep).
    Default is `0.0`.
 
@@ -35,11 +39,8 @@ $ docker run -ti --rm -p 8080:8080 \
    [limit_rate](http://nginx.org/en/docs/http/ngx_http_core_module.html#limit_rate).
    Using units is possible (`4k`, `2M`, ...). Default is `0` (no limit).
 
- - `BASE64_CREDENTIALS`
+ - `RESOLVER`
 
-   Base64 encoded credentials passed to the upstream. Although its possible to
-   pass credentials from the client through the proxy to the backend its
-   sometimes convinient to hide the authorisation from the client. This value
-   is passed as the basic authentication header to the backend (The part after
-   `Basic`). Generate such a value via `echo -n 'user:pass' | base64`. Default
-   is `''`
+   The resolver used for name resolution. The given value will be used as
+   nginx [resolver](http://nginx.org/en/docs/http/ngx_http_core_module.html#resolver).
+   Default value is 8.8.8.8 (google DNS)
